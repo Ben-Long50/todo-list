@@ -7,20 +7,21 @@
 </head>
 <body>
     <div class="container">
-        <header id="header">To-do</header>
-        <div class="nav-bar">
-            <h1>Projects</h1>
-            <button>Default Project</button>
-            <form id="new-project-form">
-                <input type="text" name="project-name-input" id="project-name-input" value="New Project Name">
-                <button id="create-button">Create</button>
-                <button id="cancel-button">Cancel</button>
-            </form>
-            <button>Add New Project</button>
+        <header id="header">
+            <h1>Do-it</h1>
+        </header>
+        <div id="nav-bar">
+            <div id="nav-bar-header">
+                <h1>Projects</h1>
+                <button>X</button>
+            </div>
+            <div id="project-container">
+            </div>
+            <button id="new-project-button">Add New Project</button>
         </div>
         <div class="list-container">
-            <h1>Tasks</h1>
-            <input type="text" name="task-name-input" id="task-name-input" value="New Task Name">
+            <h1>Default Project</h1>
+            <h2>Tasks</h2>
             <button id="task-button" type="submit">Create Task</button>
         </div>
     </div>
