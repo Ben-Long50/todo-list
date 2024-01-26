@@ -5,7 +5,7 @@ const newProjectButton = document.querySelector('#new-project-button')
 const navBar = document.querySelector('#nav-bar')
 const projectContainer = document.querySelector('#project-container')
 let removeButtons = projectContainer.querySelectorAll('.remove-button')
-
+const minimizeButton = document.querySelector('#minimize-button')
 
 function renderProjectForm() {
     const newProjectForm = document.createElement('div')
@@ -50,6 +50,17 @@ function renderProjects() {
     })
     getRemoveButtons()
 }
+
+function toggleProjectContainer() {
+    if(projectContainer.id === 'project-container') {
+        projectContainer.id = 'hidden-project-container'
+    }
+    else {
+        projectContainer.id = 'project-container'
+    }
+}
+
+minimizeButton.addEventListener('click', toggleProjectContainer)
 
 function removeProject(childElement) {
     const projectArray = Array.from(projectContainer.children)

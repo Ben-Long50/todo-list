@@ -49,6 +49,14 @@ h1 {
     gap: 10px;
 }
 
+#hidden-project-container {
+    display: none;
+}
+
+#minimize-button {
+
+}
+
 .project-button {
     display: flex;
     justify-content: space-between;
