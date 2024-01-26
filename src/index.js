@@ -48,7 +48,7 @@ function renderProjects() {
         projectButton.appendChild(removeButton)
         projectContainer.appendChild(projectButton)
     })
-    getRemoveButtons()
+    getRemoveButtons(projectContainer)
 }
 
 function toggleProjectContainer() {
@@ -62,21 +62,21 @@ function toggleProjectContainer() {
 
 minimizeButton.addEventListener('click', toggleProjectContainer)
 
-function removeProject(childElement) {
-    const projectArray = Array.from(projectContainer.children)
+function removeProject(childElement, container) {
+    const array = Array.from(container.children)
     const parentElement = childElement.closest('li')
-    const index = projectArray.indexOf(parentElement)
-    console.log(projectArray)
+    const index = array.indexOf(parentElement)
+    console.log(array)
     console.log(index)
-    projectList.splice(index, 1)
+    container.splice(index, 1)
     renderProjects()
 }
 
-function getRemoveButtons() {
+export function getRemoveButtons(container) {
     removeButtons = document.querySelectorAll('.remove-button')
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            removeProject(button)
+            removeProject(button, container)
         })
     })
 }
@@ -96,3 +96,5 @@ newProjectButton.addEventListener('click', () => {
         navBar.removeChild(formElements.newProjectForm)
     })
 })
+
+console.log(projectList)
