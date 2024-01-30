@@ -1,11 +1,15 @@
 import './styles/main.css'
-import { projectList, addProject, addTasktoProject } from './project.js'
+import { projectList, addProject } from './project.js'
 
 const newProjectButton = document.querySelector('#new-project-button')
+const newTaskButton = document.querySelector('#new-task-button')
 const navBar = document.querySelector('#nav-bar')
 const projectContainer = document.querySelector('#project-container')
-let removeButtons = projectContainer.querySelectorAll('.remove-button')
+const projectTitle = document.querySelector('#project-title')
+const taskContainer = document.querySelector('#task-container')
+const listContainer = document.querySelector('#list-container')
 const minimizeButton = document.querySelector('#minimize-button')
+let index = 0
 
 function renderProjectForm() {
     const newProjectForm = document.createElement('div')
@@ -30,6 +34,41 @@ function renderProjectForm() {
     }
 }
 
+function renderTaskForm() {
+    const newTaskForm = document.createElement('div')
+    newTaskForm.id = 'new-task-form'
+    const taskNameInput = document.createElement('input')
+    taskNameInput.id = 'task-input'
+    const taskDescInput = document.createElement('input')
+    taskDescInput.id = 'task-input'
+    const taskDateInput = document.createElement('input')
+    taskDateInput.id = 'task-input'
+    const taskPriorityInput = document.createElement('radio')
+    taskPriorityInput.id = 'task-input'
+    const createButton = document.createElement('button')
+    createButton.id = 'create-button'
+    createButton.textContent = 'Create'
+    const cancelButton = document.createElement('button')
+    cancelButton.id = 'cancel-button'
+    cancelButton.textContent = 'Cancel'
+    listContainer.insertBefore(newTaskForm, newTaskButton)
+    newTaskForm.appendChild(taskNameInput)
+    newTaskForm.appendChild(taskDescInput)
+    newTaskForm.appendChild(taskDateInput)
+    newTaskForm.appendChild(taskPriorityInput)
+    newTaskForm.appendChild(createButton)
+    newTaskForm.appendChild(cancelButton)
+    return {
+        newTaskForm,
+        taskNameInput,
+        taskDescInput,
+        taskDateInput,
+        taskPriorityInput,
+        createButton,
+        cancelButton
+    }
+}
+
 function renderProjects() {
     while(projectContainer.firstChild) {
         projectContainer.removeChild(projectContainer.firstChild)
@@ -48,7 +87,39 @@ function renderProjects() {
         projectButton.appendChild(removeButton)
         projectContainer.appendChild(projectButton)
     })
-    getRemoveButtons(projectContainer)
+    getProjectButtons()
+    getRemoveButtons()
+}
+
+function renderTasks() {
+    projectTitle.textContent = projectList[index].name
+    while(taskContainer.firstChild) {
+        taskContainer.removeChild(taskContainer.firstChild)
+    }
+    const taskArray = projectList[index].taskList
+    taskArray.forEach(task => {
+        const taskItem = document.createElement('div')
+        taskItem.classList.add('task-item')
+        const taskTitle = document.createElement('h2')
+        taskTitle.classList.add('task-title')
+        taskTitle.textContent = task.title
+        const taskDetails = document.createElement('div')
+        taskDetails.classList.add('task-details')
+        const taskDesc = document.createElement('p')
+        taskDesc.classList.add('task-description')
+        taskDesc.textContent = task.description
+        const taskDate = document.createElement('h2')
+        taskDate.classList.add('task-date')
+        taskDate.textContent = task.dueDate
+        const taskPriority = document.createElement('p')
+        taskPriority.classList.add('task-priority')
+        taskContainer.appendChild(taskItem)
+        taskItem.appendChild(taskTitle)
+        taskItem.appendChild(taskDetails)
+        taskDetails.appendChild(taskDesc)
+        taskDetails.appendChild(taskDate)
+        taskDetails.appendChild(taskPriority)
+    })
 }
 
 function toggleProjectContainer() {
@@ -62,21 +133,31 @@ function toggleProjectContainer() {
 
 minimizeButton.addEventListener('click', toggleProjectContainer)
 
-function removeProject(childElement, container) {
-    const array = Array.from(container.children)
-    const parentElement = childElement.closest('li')
-    const index = array.indexOf(parentElement)
-    console.log(array)
-    console.log(index)
-    container.splice(index, 1)
+function removeProject() {
+    projectList.splice(index, 1)
     renderProjects()
 }
 
-export function getRemoveButtons(container) {
-    removeButtons = document.querySelectorAll('.remove-button')
+function getProjectButtons() {
+    let projectButtons = projectContainer.querySelectorAll('.project-button')
+    const projectButtonArray = Array.from(projectButtons)
+    projectButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            index = projectButtonArray.indexOf(button)
+            renderTasks()
+            console.log(index)
+        })
+    })
+}
+
+function getRemoveButtons() {
+    let removeButtons = projectContainer.querySelectorAll('.remove-button')
+    const removeButtonArray = Array.from(removeButtons)
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            removeProject(button, container)
+            index = removeButtonArray.indexOf(button)
+            console.log(index)
+            removeProject()
         })
     })
 }
@@ -97,4 +178,34 @@ newProjectButton.addEventListener('click', () => {
     })
 })
 
-console.log(projectList)
+newTaskButton.addEventListener('click', () => {
+    if(taskContainer.nextElementSibling != newTaskButton) {
+        return
+    }
+    const formElements = renderTaskForm()
+    formElements.createButton.addEventListener('click', () => {
+        let nameInput = formElements.taskNameInput.value
+        let descInput = formElements.taskDescInput.value
+        let dateInput = formElements.taskDateInput.value
+        let priorityInput = formElements.taskPriorityInput.value
+        projectList[index].addTask(nameInput, descInput, dateInput, priorityInput)
+        console.log(projectList)
+        renderTasks()
+        nameInput = ''
+        descInput = ''
+        dateInput = ''
+        priorityInput = ''
+    })
+    formElements.cancelButton.addEventListener('click', () => {
+        listContainer.removeChild(formElements.newTaskForm)
+    })
+})
+
+addProject('gym')
+addProject('study')
+
+projectList[0].addTask('bench', '4x10 at 60% 1rm', 'now', 1)
+projectList[1].addTask('The Odin Project', 'Complete To-do List Project', 'now', 1)
+
+renderProjects()
+renderTasks()

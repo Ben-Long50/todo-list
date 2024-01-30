@@ -81,7 +81,7 @@ h1 {
     background-color: rgb(175, 175, 175);
 }
 
-.list-container {
+#list-container {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     display: flex;
@@ -112,11 +112,17 @@ h1 {
     grid-row: 3 / 4;
 }
 
+#new-project-form {
+    display: grid;
+    grid-template-columns: repeat(5 1fr);
+    grid-template-rows: repeat(2 1fr);
+}
+
 #task-name-input {
     width: 20%;
     flex-grow: 0;
 }
 
-#task-button {
+#new-task-button {
     width: 100px;
 }

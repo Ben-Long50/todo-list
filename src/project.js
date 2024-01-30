@@ -6,17 +6,18 @@ export default class Project {
         this.taskList = [];
     }
 
-    createTask(title, description, dueDate, priority) {
-        return {
-            title,
-            description,
-            dueDate,
-            priority,
-        }
+    addTask(title, description, dueDate, priority) {
+        const newTask = new Task(title, description, dueDate, priority)
+        this.taskList.push(newTask)
     }
+}
 
-    addTask(task) {
-        this.taskList.push(task)
+class Task {
+    constructor(title, description, dueDate, priority) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
     }
 }
 
@@ -24,9 +25,4 @@ export function addProject(projectName) {
     const newProject = new Project(projectName)
     projectList.push(newProject)
     return newProject
-}
-
-export function addTasktoProject(project, title, description, dueDate, priority) {
-    const newTask = project.createTask(title, description, dueDate, priority)
-    project.addTask(newTask)
 }
