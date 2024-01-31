@@ -94,35 +94,70 @@ h1 {
 #new-project-form {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
-    grid-template-rows: 1fr .5fr 1fr;
+    grid-template-rows: repeat(3 1fr);
+    gap: 20px;
+}
+
+#project-name-label {
+    grid-template-columns: 1 / 4;
+    grid-template-rows: 1 / 2;
 }
 
 #project-name-input {
     grid-column: 1 / 4;
-    grid-row: 1 / 2;
+    grid-row: 2 / 3;
 }
 
-#create-button {
+#create-project-button {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
 }
 
-#cancel-button {
+#cancel-project-button {
     grid-column: 3 / 4;
     grid-row: 3 / 4;
 }
 
-#new-project-form {
-    display: grid;
-    grid-template-columns: repeat(5 1fr);
-    grid-template-rows: repeat(2 1fr);
-}
-
-#task-name-input {
-    width: 20%;
-    flex-grow: 0;
-}
-
 #new-task-button {
     width: 100px;
+}
+
+#new-task-form {
+    display: grid;
+    grid-template-columns: minmax(auto, 300px) 500px;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 30px;
+}
+
+#task-name-label,
+#task-desc-label,
+#task-date-label,
+#task-priority-label {
+    grid-column: 1 / 2;
+}
+
+#task-name-label {
+    grid-row: 1 / 2;
+}
+
+#task-desc-label {
+    grid-row: 2 / 3;
+}
+
+#task-date-label {
+    grid-row: 3 / 4;
+}
+
+#task-priority-label {
+    grid-row: 4 / 5;
+}
+
+#create-task-button {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+}
+
+#cancel-task-button {
+    grid-column: 2 / 3;
+    grid-row: 5 / 6;
 }

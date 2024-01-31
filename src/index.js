@@ -14,18 +14,24 @@ let index = 0
 function renderProjectForm() {
     const newProjectForm = document.createElement('div')
     newProjectForm.id = 'new-project-form'
+    navBar.insertBefore(newProjectForm, newProjectButton)
+    const inputLabel = document.createElement('label')
+    inputLabel.for = 'project-name-input'
+    inputLabel.id = 'project-name-label'
+    inputLabel.textContent = 'Project Name'
+    newProjectForm.appendChild(inputLabel)
     const projectInput = document.createElement('input')
     projectInput.id = 'project-name-input'
+    newProjectForm.appendChild(projectInput)
     const createButton = document.createElement('button')
     createButton.id = 'create-button'
     createButton.textContent = 'Create'
+    newProjectForm.appendChild(createButton)
     const cancelButton = document.createElement('button')
     cancelButton.id = 'cancel-button'
     cancelButton.textContent = 'Cancel'
-    navBar.insertBefore(newProjectForm, newProjectButton)
-    newProjectForm.appendChild(projectInput)
-    newProjectForm.appendChild(createButton)
     newProjectForm.appendChild(cancelButton)
+    
     return {
         newProjectForm,
         projectInput,
@@ -35,39 +41,127 @@ function renderProjectForm() {
 }
 
 function renderTaskForm() {
-    const newTaskForm = document.createElement('div')
-    newTaskForm.id = 'new-task-form'
-    const taskNameInput = document.createElement('input')
-    taskNameInput.id = 'task-input'
-    const taskDescInput = document.createElement('input')
-    taskDescInput.id = 'task-input'
-    const taskDateInput = document.createElement('input')
-    taskDateInput.id = 'task-input'
-    const taskPriorityInput = document.createElement('radio')
-    taskPriorityInput.id = 'task-input'
-    const createButton = document.createElement('button')
-    createButton.id = 'create-button'
-    createButton.textContent = 'Create'
-    const cancelButton = document.createElement('button')
-    cancelButton.id = 'cancel-button'
-    cancelButton.textContent = 'Cancel'
-    listContainer.insertBefore(newTaskForm, newTaskButton)
-    newTaskForm.appendChild(taskNameInput)
-    newTaskForm.appendChild(taskDescInput)
-    newTaskForm.appendChild(taskDateInput)
-    newTaskForm.appendChild(taskPriorityInput)
-    newTaskForm.appendChild(createButton)
-    newTaskForm.appendChild(cancelButton)
+    const newTaskForm = document.createElement('div');
+    newTaskForm.id = 'new-task-form';
+    listContainer.insertBefore(newTaskForm, newTaskButton);
+
+    createLabel('Task Name:', 'task-name-input', 'task-name-label', newTaskForm);
+    const taskNameInput = createInput('task-name-input', newTaskForm);
+
+    createLabel('Description:', 'task-desc-input', 'task-desc-label', newTaskForm);
+    const taskDescInput = createInput('task-desc-input', newTaskForm);
+
+    createLabel('Due Date:', 'task-date-input', 'task-date-label', newTaskForm);
+    const taskDateInput = createInput('task-date-input', newTaskForm);
+
+    createLabel('Priority:', 'task-priority-input', 'task-priority-label', newTaskForm);
+    const taskPriorityInput = createRadioInput('task-priority-input', newTaskForm);
+
+    const formButtons = createFormButtons(newTaskForm, 'create-task-button', 'cancel-task-button')
+
     return {
         newTaskForm,
         taskNameInput,
         taskDescInput,
         taskDateInput,
         taskPriorityInput,
+        createButton: formButtons.createButton,
+        cancelButton: formButtons.cancelButton
+    }
+}
+
+function createLabel(text, inputId, labelId, parentElement) {
+    const inputLabel = document.createElement('label');
+    inputLabel.htmlFor = inputId;
+    inputLabel.id = labelId;
+    inputLabel.textContent = text;
+    parentElement.appendChild(inputLabel);
+}
+
+function createInput(inputId, parentElement) {
+    const inputElement = document.createElement('input');
+    inputElement.id = inputId;
+    parentElement.appendChild(inputElement);
+}
+
+function createRadioInput(inputId, parentElement) {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'radio';
+    inputElement.id = inputId;
+    parentElement.appendChild(inputElement);
+}
+
+function createFormButtons (parentElement, createButtonId, cancelButtonId) {
+    const createButton = document.createElement('button');
+    createButton.classList.add('create-button');
+    createButton.id = createButtonId;
+    createButton.textContent = 'Create';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.classList.add('cancel-button');
+    cancelButton.id = cancelButtonId;
+    cancelButton.textContent = 'Cancel';
+
+    parentElement.appendChild(createButton);
+    parentElement.appendChild(cancelButton);
+
+    return {
         createButton,
         cancelButton
     }
 }
+
+// function renderTaskForm() {
+//     const newTaskForm = document.createElement('div')
+//     newTaskForm.id = 'new-task-form'
+//     listContainer.insertBefore(newTaskForm, newTaskButton)
+//     const inputLabel = document.createElement('label')
+//     inputLabel.for = 'task-name-input'
+//     inputLabel.id = 'task-name-label'
+//     inputLabel.textContent = 'Task Name'
+//     newTaskForm.appendChild(inputLabel)
+//     const taskNameInput = document.createElement('input')
+//     taskNameInput.id = 'task-input'
+//     newTaskForm.appendChild(taskNameInput)
+//     inputLabel.for = 'task-desc-input'
+//     inputLabel.id = 'task-desc-label'
+//     inputLabel.textContent = 'Description'
+//     newTaskForm.appendChild(inputLabel)
+//     const taskDescInput = document.createElement('input')
+//     taskDescInput.id = 'task-desc-input'
+//     newTaskForm.appendChild(taskDescInput)
+//     inputLabel.for = 'task-date-input'
+//     inputLabel.id = 'task-date-label'
+//     inputLabel.textContent = 'Due Date'
+//     newTaskForm.appendChild(inputLabel)
+//     const taskDateInput = document.createElement('input')
+//     taskDateInput.id = 'task-date-input'
+//     newTaskForm.appendChild(taskDateInput)
+//     inputLabel.for = 'task-priority-input'
+//     inputLabel.id = 'task-priority-label'
+//     inputLabel.textContent = 'Priority'
+//     newTaskForm.appendChild(inputLabel)
+//     const taskPriorityInput = document.createElement('radio')
+//     taskPriorityInput.id = 'task-priority-input'
+//     newTaskForm.appendChild(taskPriorityInput)
+//     const createButton = document.createElement('button')
+//     createButton.id = 'create-button'
+//     createButton.textContent = 'Create'
+//     const cancelButton = document.createElement('button')
+//     cancelButton.id = 'cancel-button'
+//     cancelButton.textContent = 'Cancel'
+//     newTaskForm.appendChild(createButton)
+//     newTaskForm.appendChild(cancelButton)
+//     return {
+//         newTaskForm,
+//         taskNameInput,
+//         taskDescInput,
+//         taskDateInput,
+//         taskPriorityInput,
+//         createButton,
+//         cancelButton
+//     }
+// }
 
 function renderProjects() {
     while(projectContainer.firstChild) {
@@ -135,7 +229,10 @@ minimizeButton.addEventListener('click', toggleProjectContainer)
 
 function removeProject() {
     projectList.splice(index, 1)
+    index = index - 1
+    console.log(index)
     renderProjects()
+    renderTasks()
 }
 
 function getProjectButtons() {
@@ -145,7 +242,6 @@ function getProjectButtons() {
         button.addEventListener('click', () => {
             index = projectButtonArray.indexOf(button)
             renderTasks()
-            console.log(index)
         })
     })
 }
@@ -156,7 +252,6 @@ function getRemoveButtons() {
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
             index = removeButtonArray.indexOf(button)
-            console.log(index)
             removeProject()
         })
     })
