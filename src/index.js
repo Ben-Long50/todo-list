@@ -3,6 +3,7 @@ import './styles/main.css'
 import './styles/project-form.css'
 import './styles/task-form.css'
 import './styles/task-item.css'
+import { format } from 'date-fns'
 import { renderProjectForm, renderTaskForm, renderProjects, renderTasks, newProjectButton, newTaskButton, projectContainer, taskContainer, listContainer, navBar, minimizeButton, toggleProjectContainer, index } from "./renderDom.js"
 import { projectList, addProject } from './project.js'
 
@@ -31,11 +32,11 @@ newTaskButton.addEventListener('click', () => {
     formElements.createButton.addEventListener('click', () => {
         const nameValue = document.getElementById('task-name-input').value
         const descValue = document.getElementById('task-desc-input').value
-        const dateValue = document.getElementById('task-date-input').value
+        const dateValue = format(document.getElementById('task-date-input').value, 'LLLL dd, yyyy')
         // let priorityInput = formElements.taskPriorityInput.value
         projectList[index].addTask(nameValue, descValue, dateValue, 1)
         console.log(projectList)
-        renderTasks()
+        renderTasks(dateValue)
         document.getElementById('task-name-input').value = ''
         document.getElementById('task-desc-input').value = ''
         document.getElementById('task-date-input').value = ''

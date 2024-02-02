@@ -1,4 +1,5 @@
 import { projectList, addProject } from './project.js'
+import { formatDistanceToNowStrict } from 'date-fns'
 
 export const newProjectButton = document.querySelector('#new-project-button')
 export const newTaskButton = document.querySelector('#new-task-button')
@@ -33,13 +34,13 @@ export function renderTaskForm() {
     listContainer.insertBefore(newTaskForm, newTaskButton);
 
     createLabel('Task Name:', 'task-name-input', 'task-name-label', newTaskForm);
-    createInput('task-name-input', newTaskForm);
+    createInput('task-name-input', newTaskForm, 'text');
 
     createLabel('Description:', 'task-desc-input', 'task-desc-label', newTaskForm);
-    createInput('task-desc-input', newTaskForm);
+    createInput('task-desc-input', newTaskForm, 'text');
 
     createLabel('Due Date:', 'task-date-input', 'task-date-label', newTaskForm);
-    createInput('task-date-input', newTaskForm);
+    createInput('task-date-input', newTaskForm, 'date');
 
     createLabel('Priority:', 'task-priority-input', 'task-priority-label', newTaskForm);
     createRadioInput('task-priority-input', newTaskForm, 3);
@@ -61,14 +62,11 @@ function createLabel(text, inputId, labelId, parentElement) {
     parentElement.appendChild(inputLabel);
 }
 
-function createInput(inputId, parentElement) {
+function createInput(inputId, parentElement, type) {
     const inputElement = document.createElement('input');
     inputElement.id = inputId;
+    inputElement.type = type
     parentElement.appendChild(inputElement);
-
-    return {
-        nameValue: inputElement.value
-    }
 }
 
 function createRadioInput(inputClass, parentElement, n) {
@@ -81,7 +79,6 @@ function createRadioInput(inputClass, parentElement, n) {
         inputElement.type = 'radio';
         inputElement.classList.add(inputClass);
         elementContainer.appendChild(inputElement);
-        console.log(i)
     }
 }
 
@@ -124,7 +121,7 @@ export function renderProjects() {
         projectContainer.appendChild(projectButton)
     })
     getProjectButtons()
-    getRemoveButtons()
+    getRemoveButtons(projectContainer)
 }
 
 export function renderTasks() {
@@ -139,6 +136,9 @@ export function renderTasks() {
         const taskTitle = document.createElement('h2')
         taskTitle.classList.add('task-title')
         taskTitle.textContent = task.title
+        const taskTimeLeft = document.createElement('div')
+        taskTimeLeft.classList.add('task-time-left')
+        taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(2024, 2, 1))
         const taskDetails = document.createElement('div')
         taskDetails.classList.add('task-details')
         const taskDesc = document.createElement('p')
@@ -151,6 +151,7 @@ export function renderTasks() {
         taskPriority.classList.add('task-priority')
         taskContainer.appendChild(taskItem)
         taskItem.appendChild(taskTitle)
+        taskItem.appendChild(taskTimeLeft)
         taskItem.appendChild(taskDetails)
         taskDetails.appendChild(taskDesc)
         taskDetails.appendChild(taskDate)
@@ -187,8 +188,8 @@ function getProjectButtons() {
     })
 }
 
-function getRemoveButtons() {
-    let removeButtons = projectContainer.querySelectorAll('.remove-button')
+function getRemoveButtons(container) {
+    let removeButtons = container.querySelectorAll('.remove-button')
     const removeButtonArray = Array.from(removeButtons)
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
