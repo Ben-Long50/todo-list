@@ -1,0 +1,35 @@
+#new-project-button {
+    align-self: flex-start;
+}
+
+#new-project-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    grid-template-rows: repeat(3 1fr);
+    gap: 20px;
+    padding: var(--main-padding);
+    align-self: flex-start;
+    background-color: var(--main-background-color);
+    box-shadow: var(--main-box-shadow);
+    border-radius: var(--main-border-radius);
+}
+
+#project-name-label {
+    grid-template-columns: 1 / 4;
+    grid-template-rows: 1 / 2;
+}
+
+#project-name-input {
+    grid-column: 1 / 4;
+    grid-row: 2 / 3;
+}
+
+#create-project-button {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+#cancel-project-button {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}

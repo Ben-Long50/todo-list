@@ -1,0 +1,28 @@
+.task-item {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-background-color);
+    box-shadow: var(--main-box-shadow);
+    border-radius: var(--main-border-radius);
+    padding: var(--main-padding);
+}
+
+.task-title {
+
+}
+
+.task-details {
+    display: none;
+}
+
+.task-description {
+
+}
+
+.task-date {
+
+}
+
+.task-priority {
+
+}

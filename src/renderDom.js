@@ -134,7 +134,7 @@ export function renderTasks() {
     }
     const taskArray = projectList[index].taskList
     taskArray.forEach(task => {
-        const taskItem = document.createElement('div')
+        const taskItem = document.createElement('li')
         taskItem.classList.add('task-item')
         const taskTitle = document.createElement('h2')
         taskTitle.classList.add('task-title')
@@ -156,6 +156,7 @@ export function renderTasks() {
         taskDetails.appendChild(taskDate)
         taskDetails.appendChild(taskPriority)
     })
+    getTaskButtons()
 }
 
 export function toggleProjectContainer() {
@@ -197,6 +198,22 @@ function getRemoveButtons() {
     })
 }
 
+function getTaskButtons() {
+    let taskButtons = taskContainer.querySelectorAll('.task-item')
+    const taskButtonArray = Array.from(taskButtons)
+    taskButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            index = taskButtonArray.indexOf(button)
+            const taskDetails = button.querySelector('.task-details')
+            if(taskDetails.style.display === 'none') {
+                taskDetails.style.display = 'grid'
+            }
+            else {
+                taskDetails.style.display = 'none'
+            }
+        })
+    })
+}
 addProject('Default')
 const gym = addProject('gym')
 const study = addProject('study')
