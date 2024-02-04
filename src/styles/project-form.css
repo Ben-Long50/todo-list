@@ -5,7 +5,7 @@
 #new-project-form {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
-    grid-template-rows: repeat(3 1fr);
+    grid-template-rows: repeat(3 auto);
     gap: 20px;
     padding: var(--main-padding);
     align-self: flex-start;

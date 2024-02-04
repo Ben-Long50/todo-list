@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Anton';
+    src: url(../assets/Anton-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Open-sans';
+    src: url(../assets/OpenSans.ttf);
+}
+
 html,
 body {
     height: 100vh;
@@ -10,6 +20,8 @@ h1,
 h2 {
     margin: 0;
     padding: 0;
+    font-family: 'Anton';
+    font-weight: normal;
 }
 
 button {
@@ -21,7 +33,19 @@ button {
     padding: 6px;
     border-radius: var(--main-border-radius);
     border-color: var(--accent-color);
+    font-family: 'Open-sans';
 }
+
+label,
+input {
+    font-family: 'Open-sans';
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: var(--accent-color);
+}
+
 .container {
     --main-background-color: rgb(223, 223, 223);
     --main-border-radius: 8px;
@@ -92,13 +116,14 @@ button {
     font-size: 20px;
 }
 
-.remove-button{
-    /* border: none; */
-}
-
 .project-button:hover {
     background-color: var(--accent-color);
     scale: 1.01;
+}
+
+.remove-button{
+    border: none;
+    background-color: transparent;
 }
 
 #list-container {

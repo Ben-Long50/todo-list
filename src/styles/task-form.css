@@ -5,7 +5,7 @@
 #new-task-form {
     display: grid;
     grid-template-columns: minmax(auto, 150px) minmax(auto, 300px);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-rows: repeat(5, auto);
     gap: 15px;
     padding: var(--main-padding);
     align-self: flex-start;

@@ -7,12 +7,17 @@
     padding: var(--main-padding);
 }
 
+.task-item:hover {
+    background-color: var(--accent-color);
+    scale: 1.003;
+}
+
 .task-title {
 
 }
 
 .task-time-left {
-
+    align-self: center;
 }
 
 .task-details {

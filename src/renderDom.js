@@ -144,7 +144,7 @@ export function renderTasks() {
         const taskDesc = document.createElement('p')
         taskDesc.classList.add('task-description')
         taskDesc.textContent = task.description
-        const taskDate = document.createElement('h2')
+        const taskDate = document.createElement('p')
         taskDate.classList.add('task-date')
         taskDate.textContent = task.dueDate
         const taskPriority = document.createElement('p')
