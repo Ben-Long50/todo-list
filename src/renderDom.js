@@ -144,7 +144,7 @@ export function renderTasks() {
             console.log(task.dueDate)
             taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(task.dueDate))
             const taskRemoveButton = document.createElement('button')
-            taskRemoveButton.classList.add('task-remove-button')
+            taskRemoveButton.classList.add('remove-button')
             taskRemoveButton.textContent = 'X'
             const taskDetails = document.createElement('div')
             taskDetails.classList.add('task-details')
@@ -193,8 +193,6 @@ function removeProject() {
 
 function removeTask() {
     projectList[index].taskList.splice(taskIndex, 1)
-    taskIndex = taskIndex - 1
-    console.log(taskIndex)
     renderTasks()
 }
 
@@ -214,11 +212,12 @@ function getRemoveButtons(container) {
     const removeButtonArray = Array.from(removeButtons)
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            index = removeButtonArray.indexOf(button)
             if(container === projectContainer) {
+                index = removeButtonArray.indexOf(button)
                 removeProject()
             }
             else if(container === taskContainer) {
+                taskIndex = removeButtonArray.indexOf(button)
                 removeTask()
             }
         })
@@ -231,6 +230,7 @@ function getTaskButtons() {
     taskButtons.forEach(button => {
         button.addEventListener('click', () => {
             taskIndex = taskButtonArray.indexOf(button)
+            console.log(taskIndex)
             const taskDetails = button.querySelector('.task-details')
             if(taskDetails.style.display === 'none') {
                 taskDetails.style.display = 'grid'
@@ -246,6 +246,10 @@ const gym = addProject('gym')
 const study = addProject('study')
 
 gym.addTask('bench', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('squat', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('bicep curls', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('tricep extensions', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('dumbbell flys', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
 study.addTask('The Odin Project', 'Complete To-do List Project', 'February, 12 2024', 'Low')
 
 renderProjects()
