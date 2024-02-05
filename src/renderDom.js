@@ -10,6 +10,7 @@ export const taskContainer = document.querySelector('#task-container')
 export const listContainer = document.querySelector('#list-container')
 export const minimizeButton = document.querySelector('#minimize-button')
 export let index = 0
+let taskIndex = 0
 
 export function renderProjectForm() {
     const newProjectForm = document.createElement('div')
@@ -43,7 +44,7 @@ export function renderTaskForm() {
     createInput('task-date-input', newTaskForm, 'date');
 
     createLabel('Priority:', 'task-priority-input', 'task-priority-label', newTaskForm);
-    createRadioInput('task-priority-input', newTaskForm, 3);
+    createRadioInput('task-priority-input', newTaskForm, ['High', 'Medium', 'Low', 'None']);
 
     const formButtons = createFormButtons(newTaskForm, 'create-task-button', 'cancel-task-button')
 
@@ -69,15 +70,16 @@ function createInput(inputId, parentElement, type) {
     parentElement.appendChild(inputElement);
 }
 
-function createRadioInput(inputClass, parentElement, n) {
+function createRadioInput(inputClass, parentElement, valueArray) {
     const elementContainer = document.createElement('div')
     elementContainer.id = 'radio-container'
     parentElement.appendChild(elementContainer)
 
-    for(let i = 1; i <= n; i++) {
+    for(let i = 0; i < valueArray.length; i++) {
         const inputElement = document.createElement('input');
         inputElement.type = 'radio';
         inputElement.classList.add(inputClass);
+        inputElement.value = valueArray[i]
         elementContainer.appendChild(inputElement);
     }
 }
@@ -125,39 +127,48 @@ export function renderProjects() {
 }
 
 export function renderTasks() {
-    projectTitle.textContent = projectList[index].name
-    while(taskContainer.firstChild) {
-        taskContainer.removeChild(taskContainer.firstChild)
+    if(projectList[index]) {
+        projectTitle.textContent = projectList[index].name
+        while(taskContainer.firstChild) {
+            taskContainer.removeChild(taskContainer.firstChild)
+        }
+        const taskArray = projectList[index].taskList
+        taskArray.forEach(task => {
+            const taskItem = document.createElement('li')
+            taskItem.classList.add('task-item')
+            const taskTitle = document.createElement('h2')
+            taskTitle.classList.add('task-title')
+            taskTitle.textContent = task.title
+            const taskTimeLeft = document.createElement('div')
+            taskTimeLeft.classList.add('task-time-left')
+            console.log(task.dueDate)
+            taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(task.dueDate))
+            const taskRemoveButton = document.createElement('button')
+            taskRemoveButton.classList.add('task-remove-button')
+            taskRemoveButton.textContent = 'X'
+            const taskDetails = document.createElement('div')
+            taskDetails.classList.add('task-details')
+            const taskDesc = document.createElement('p')
+            taskDesc.classList.add('task-description')
+            taskDesc.textContent = task.description
+            const taskDate = document.createElement('p')
+            taskDate.classList.add('task-date')
+            taskDate.textContent = 'Due Date: ' + task.dueDate
+            const taskPriority = document.createElement('p')
+            taskPriority.classList.add('task-priority')
+            taskPriority.textContent = 'Priority: ' + task.priority
+            taskContainer.appendChild(taskItem)
+            taskItem.appendChild(taskTitle)
+            taskItem.appendChild(taskTimeLeft)
+            taskItem.appendChild(taskRemoveButton)
+            taskItem.appendChild(taskDetails)
+            taskDetails.appendChild(taskDesc)
+            taskDetails.appendChild(taskDate)
+            taskDetails.appendChild(taskPriority)
+        })
     }
-    const taskArray = projectList[index].taskList
-    taskArray.forEach(task => {
-        const taskItem = document.createElement('li')
-        taskItem.classList.add('task-item')
-        const taskTitle = document.createElement('h2')
-        taskTitle.classList.add('task-title')
-        taskTitle.textContent = task.title
-        const taskTimeLeft = document.createElement('div')
-        taskTimeLeft.classList.add('task-time-left')
-        taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(2024, 2, 1))
-        const taskDetails = document.createElement('div')
-        taskDetails.classList.add('task-details')
-        const taskDesc = document.createElement('p')
-        taskDesc.classList.add('task-description')
-        taskDesc.textContent = task.description
-        const taskDate = document.createElement('p')
-        taskDate.classList.add('task-date')
-        taskDate.textContent = task.dueDate
-        const taskPriority = document.createElement('p')
-        taskPriority.classList.add('task-priority')
-        taskContainer.appendChild(taskItem)
-        taskItem.appendChild(taskTitle)
-        taskItem.appendChild(taskTimeLeft)
-        taskItem.appendChild(taskDetails)
-        taskDetails.appendChild(taskDesc)
-        taskDetails.appendChild(taskDate)
-        taskDetails.appendChild(taskPriority)
-    })
     getTaskButtons()
+    getRemoveButtons(taskContainer)
 }
 
 export function toggleProjectContainer() {
@@ -170,10 +181,20 @@ export function toggleProjectContainer() {
 }
 
 function removeProject() {
+    if(index === 0) {
+        return
+    }
     projectList.splice(index, 1)
     index = index - 1
     console.log(index)
     renderProjects()
+    renderTasks()
+}
+
+function removeTask() {
+    projectList[index].taskList.splice(taskIndex, 1)
+    taskIndex = taskIndex - 1
+    console.log(taskIndex)
     renderTasks()
 }
 
@@ -194,7 +215,12 @@ function getRemoveButtons(container) {
     removeButtons.forEach(button => {
         button.addEventListener('click', () => {
             index = removeButtonArray.indexOf(button)
-            removeProject()
+            if(container === projectContainer) {
+                removeProject()
+            }
+            else if(container === taskContainer) {
+                removeTask()
+            }
         })
     })
 }
@@ -204,7 +230,7 @@ function getTaskButtons() {
     const taskButtonArray = Array.from(taskButtons)
     taskButtons.forEach(button => {
         button.addEventListener('click', () => {
-            index = taskButtonArray.indexOf(button)
+            taskIndex = taskButtonArray.indexOf(button)
             const taskDetails = button.querySelector('.task-details')
             if(taskDetails.style.display === 'none') {
                 taskDetails.style.display = 'grid'
@@ -219,8 +245,8 @@ addProject('Default')
 const gym = addProject('gym')
 const study = addProject('study')
 
-gym.addTask('bench', '4x10 at 60% 1rm', 'now', 1)
-study.addTask('The Odin Project', 'Complete To-do List Project', 'now', 1)
+gym.addTask('bench', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+study.addTask('The Odin Project', 'Complete To-do List Project', 'February, 12 2024', 'Low')
 
 renderProjects()
 renderTasks()

@@ -24,6 +24,11 @@ h2 {
     font-weight: normal;
 }
 
+p {
+    margin: 8px 0;
+    padding: 0;
+}
+
 button {
     outline: none;
     border-width: 2px;
@@ -137,6 +142,8 @@ button:hover {
 }
 
 #task-container {
+    width: 50%;
     display: flex;
     flex-direction: column;
+    gap: 15px;
 }

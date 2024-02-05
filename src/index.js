@@ -33,14 +33,25 @@ newTaskButton.addEventListener('click', () => {
         const nameValue = document.getElementById('task-name-input').value
         const descValue = document.getElementById('task-desc-input').value
         const dateValue = format(document.getElementById('task-date-input').value, 'LLLL dd, yyyy')
-        // let priorityInput = formElements.taskPriorityInput.value
-        projectList[index].addTask(nameValue, descValue, dateValue, 1)
-        console.log(projectList)
+        const priorityValues = document.querySelectorAll('.task-priority-input')
+        console.log(priorityValues)
+        function getRaidoValue() {
+            for(const radio of priorityValues) {
+                if(radio.checked) {
+                    return radio.value
+                }
+            }
+        }
+        const priorityValue = getRaidoValue()
+        projectList[index].addTask(nameValue, descValue, dateValue, priorityValue)
         renderTasks(dateValue)
         document.getElementById('task-name-input').value = ''
         document.getElementById('task-desc-input').value = ''
         document.getElementById('task-date-input').value = ''
-        // priorityInput = ''
+        const radioInputs = document.querySelectorAll('.task-priority-input')
+        for(const input of radioInputs) {
+            input.checked = false
+        }
     })
     formElements.cancelButton.addEventListener('click', () => {
         listContainer.removeChild(formElements.newTaskForm)

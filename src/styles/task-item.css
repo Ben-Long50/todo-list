@@ -1,6 +1,6 @@
 .task-item {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr auto;
     background-color: var(--main-background-color);
     box-shadow: var(--main-box-shadow);
     border-radius: var(--main-border-radius);
@@ -13,11 +13,20 @@
 }
 
 .task-title {
-
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
 }
 
 .task-time-left {
     align-self: center;
+}
+
+.task-remove-button {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    border: none;
+    background-color: transparent;
 }
 
 .task-details {
