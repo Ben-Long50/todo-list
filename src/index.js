@@ -3,59 +3,27 @@ import './styles/main.css'
 import './styles/project-form.css'
 import './styles/task-form.css'
 import './styles/task-item.css'
-import { format } from 'date-fns'
-import { renderProjectForm, renderTaskForm, renderProjects, renderTasks, newProjectButton, newTaskButton, projectContainer, taskContainer, listContainer, navBar, minimizeButton, toggleProjectContainer, index } from "./renderDom.js"
-import { projectList, addProject } from './project.js'
+import { addProject, getAllTasks, allTasksList } from './project.js'
+import { renderProjects } from './projectList'
+import { renderTasks } from './taskList'
+import { renderProjectForm } from './projectForm.js'
+import { renderTaskForm } from './taskForm.js'
 
-newProjectButton.addEventListener('click', () => {
-    if(projectContainer.nextElementSibling != newProjectButton) {
-        return
-    }
-    const formElements = renderProjectForm()
-    formElements.createButton.addEventListener('click', () => {
-        const element = document.getElementById('project-name-input')
-        const nameValue = element.value
-        addProject(nameValue)
-        renderProjects()
-        element.value = ''
-    })
-    formElements.cancelButton.addEventListener('click', () => {
-        navBar.removeChild(formElements.newProjectForm)
-    })
-})
+const allTasks = addProject('All Tasks')
+const gym = addProject('gym')
+const study = addProject('study')
 
-newTaskButton.addEventListener('click', () => {
-    if(taskContainer.nextElementSibling != newTaskButton) {
-        return
-    }
-    const formElements = renderTaskForm()
-    formElements.createButton.addEventListener('click', () => {
-        const nameValue = document.getElementById('task-name-input').value
-        const descValue = document.getElementById('task-desc-input').value
-        const dateValue = format(document.getElementById('task-date-input').value, 'LLLL dd, yyyy')
-        const priorityValues = document.querySelectorAll('.task-priority-input')
-        console.log(priorityValues)
-        function getRaidoValue() {
-            for(const radio of priorityValues) {
-                if(radio.checked) {
-                    return radio.value
-                }
-            }
-        }
-        const priorityValue = getRaidoValue()
-        projectList[index].addTask(nameValue, descValue, dateValue, priorityValue)
-        renderTasks(dateValue)
-        document.getElementById('task-name-input').value = ''
-        document.getElementById('task-desc-input').value = ''
-        document.getElementById('task-date-input').value = ''
-        const radioInputs = document.querySelectorAll('.task-priority-input')
-        for(const input of radioInputs) {
-            input.checked = false
-        }
-    })
-    formElements.cancelButton.addEventListener('click', () => {
-        listContainer.removeChild(formElements.newTaskForm)
-    })
-})
+gym.addTask('bench', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('squat', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('bicep curls', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('tricep extensions', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+gym.addTask('dumbbell flys', '4x10 at 60% 1rm', 'Febrary, 11 2024', 'High')
+study.addTask('The Odin Project', 'Complete To-do List Project', 'February, 12 2024', 'Low')
 
-minimizeButton.addEventListener('click', toggleProjectContainer)
+getAllTasks()
+console.log(allTasksList)
+allTasks.taskList = allTasksList
+
+renderProjects()
+renderTasks()
+
