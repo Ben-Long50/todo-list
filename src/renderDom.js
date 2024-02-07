@@ -1,6 +1,6 @@
 import { projectList, deleteProject, getAllTasks } from './project.js'
-import { projectContainer, renderProjects } from './projectList.js';
-import { renderTasks, taskContainer } from './taskList.js';
+import { projectContainer, renderProjects, renderProjectEdit } from './projectList.js';
+import { renderTasks, taskContainer, renderTaskEdit } from './taskList.js';
 
 export let index = 0
 export let taskIndex = 0
@@ -18,6 +18,13 @@ export function createInput(inputId, parentElement, type) {
     inputElement.id = inputId;
     inputElement.type = type
     parentElement.appendChild(inputElement);
+}
+
+export function createEditInput(inputId, parentElement, oldElement, type) {
+    const inputElement = document.createElement('input');
+    inputElement.id = inputId;
+    inputElement.type = type
+    parentElement.replaceChild(inputElement, oldElement);
 }
 
 export function createRadioInput(inputClass, parentElement, valueArray) {
@@ -77,7 +84,12 @@ export function getTaskButtons() {
             if(taskDetails.style.display === 'none') {
                 taskDetails.style.display = 'grid'
             }
-            else {
+
+            else if(taskDetails.firstChild.tagName === 'input') {
+                return
+            }
+
+            else{
                 taskDetails.style.display = 'none'
             }
         })
@@ -99,6 +111,24 @@ export function getRemoveButtons(container) {
             }
             renderProjects()
             renderTasks()
+        })
+    })
+}
+
+export function getEditButtons(container) {
+    let editButtons = container.querySelectorAll('.edit-button')
+    const editButtonArray = Array.from(editButtons)
+    editButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            if(container === projectContainer) {
+                index = editButtonArray.indexOf(button)
+                renderProjectEdit(e, index)
+            }
+            else if(container === taskContainer) {
+                taskIndex = editButtonArray.indexOf(button)
+                renderTaskEdit(e, index, taskIndex)
+                getTaskButtons()
+            }
         })
     })
 }

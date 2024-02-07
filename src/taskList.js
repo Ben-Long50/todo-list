@@ -1,5 +1,5 @@
 import { projectList } from "./project"
-import { getTaskButtons, getRemoveButtons, index } from "./renderDom"
+import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput } from "./renderDom"
 import { formatDistanceToNowStrict } from 'date-fns'
 
 export const taskContainer = document.querySelector('#task-container')
@@ -22,6 +22,11 @@ export function renderTasks() {
             taskTimeLeft.classList.add('task-time-left')
             console.log(task.dueDate)
             taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(task.dueDate))
+            const buttonContainer = document.createElement('div')
+            buttonContainer.classList.add('button-container')
+            const taskEditButton = document.createElement('button')
+            taskEditButton.classList.add('edit-button')
+            taskEditButton.textContent = 'Edit'
             const taskRemoveButton = document.createElement('button')
             taskRemoveButton.classList.add('remove-button')
             taskRemoveButton.textContent = 'X'
@@ -39,7 +44,9 @@ export function renderTasks() {
             taskContainer.appendChild(taskItem)
             taskItem.appendChild(taskTitle)
             taskItem.appendChild(taskTimeLeft)
-            taskItem.appendChild(taskRemoveButton)
+            taskItem.appendChild(buttonContainer)
+            buttonContainer.appendChild(taskEditButton)
+            buttonContainer.appendChild(taskRemoveButton)
             taskItem.appendChild(taskDetails)
             taskDetails.appendChild(taskDesc)
             taskDetails.appendChild(taskDate)
@@ -48,4 +55,40 @@ export function renderTasks() {
     }
     getTaskButtons()
     getRemoveButtons(taskContainer)
+    getEditButtons(taskContainer)
+}
+
+export function renderTaskEdit(e, index, taskIndex) {
+    const taskButton = e.target.closest('li')
+    const taskTitle = taskButton.querySelector('.task-title')
+    const taskDetails = taskButton.querySelector('.task-details')
+    const taskDesc = taskButton.querySelector('.task-description')
+    const taskDueDate = taskButton.querySelector('.task-date')
+    const taskPriority = taskButton.querySelector('task-priority')
+    const editButtonContainer = document.createElement('div')
+    editButtonContainer.classList.add('edit-button-container')
+    const taskTitleInput = createEditInput('edit-title-input', taskButton, taskTitle, 'text')
+    const taskDescInput = createEditInput('edit-desc-input', taskDetails, taskDesc, 'text')
+    const taskDateInput = createEditInput('edit-date-input', taskDetails, taskDueDate, 'date')
+    // createEditInput('edit-priority-input', taskDetails, taskPriority, 'text')
+    const confirmButton = document.createElement('button')
+    confirmButton.classList.add('project-confirm-button')
+    confirmButton.textContent = 'Confirm'
+    const cancelButton = document.createElement('button')
+    cancelButton.classList.add('project-cancel-button')
+    cancelButton.textContent = 'Cancel'
+    taskDetails.appendChild(editButtonContainer)
+    editButtonContainer.appendChild(confirmButton)
+    editButtonContainer.appendChild(cancelButton)
+
+    cancelButton.addEventListener('click', () => {
+        renderTasks()
+    })
+
+    confirmButton.addEventListener('click', () => {
+        projectList[index].taskList[taskIndex].name = taskTitleInput.value
+        projectList[index].taskList[taskIndex].description = taskDescInput.value
+        projectList[index].taskList[taskIndex].dueDate = taskDateInput.value
+        renderTasks()
+    })
 }

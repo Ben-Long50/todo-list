@@ -126,9 +126,15 @@ button:hover {
     scale: 1.01;
 }
 
-.remove-button{
+.remove-button,
+.edit-button {
     border: none;
     background-color: transparent;
+}
+
+.remove-button:hover,
+.edit-button:hover {
+    background-color: var(--main-background-color);
 }
 
 #list-container {
@@ -138,12 +144,33 @@ button:hover {
     flex-direction: column;
     gap: 20px;
     background-color: var(--container-background-color);
-    padding: 20px;
+    padding: 20px 15%;
 }
 
 #task-container {
-    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.project-edit-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    grid-template-rows: auto 1fr 2fr;
+}
+
+.project-title-input {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    font-size: 15px;
+}
+
+.project-confirm-button {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+.project-cancel-button {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
 }

@@ -20,11 +20,15 @@
 
 .task-time-left {
     align-self: center;
+    justify-self: end;
 }
 
-.task-remove-button {
+.button-container {
     grid-column: 3 / 4;
     grid-row: 1 / 2;
+    display: flex;
+    margin-left: 24px;
+    gap: 8px;
     border: none;
     background-color: transparent;
 }
@@ -40,7 +44,7 @@
 }
 
 .task-date {
-
+    justify-self: end;
 }
 
 .task-priority {
