@@ -1,6 +1,6 @@
 import { projectList } from "./project"
-import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput } from "./renderDom"
-import { formatDistanceToNowStrict } from 'date-fns'
+import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput, resetTaskDetails } from "./renderDom"
+import { format, formatDistanceToNowStrict } from 'date-fns'
 
 export const taskContainer = document.querySelector('#task-container')
 const projectTitle = document.querySelector('#project-title')
@@ -32,12 +32,13 @@ export function renderTasks() {
             taskRemoveButton.textContent = 'X'
             const taskDetails = document.createElement('div')
             taskDetails.classList.add('task-details')
+            taskDetails.style.display = 'none'
             const taskDesc = document.createElement('p')
             taskDesc.classList.add('task-description')
             taskDesc.textContent = task.description
             const taskDate = document.createElement('p')
             taskDate.classList.add('task-date')
-            taskDate.textContent = 'Due Date: ' + task.dueDate
+            taskDate.textContent = 'Due Date: ' + format(task.dueDate, 'LLLL dd, yyyy')
             const taskPriority = document.createElement('p')
             taskPriority.classList.add('task-priority')
             taskPriority.textContent = 'Priority: ' + task.priority
@@ -67,9 +68,9 @@ export function renderTaskEdit(e, index, taskIndex) {
     const taskPriority = taskButton.querySelector('task-priority')
     const editButtonContainer = document.createElement('div')
     editButtonContainer.classList.add('edit-button-container')
-    const taskTitleInput = createEditInput('edit-title-input', taskButton, taskTitle, 'text')
-    const taskDescInput = createEditInput('edit-desc-input', taskDetails, taskDesc, 'text')
-    const taskDateInput = createEditInput('edit-date-input', taskDetails, taskDueDate, 'date')
+    createEditInput('edit-title-input', taskButton, taskTitle, 'text', projectList[index].taskList[taskIndex].title)
+    createEditInput('edit-desc-input', taskDetails, taskDesc, 'text', projectList[index].taskList[taskIndex].description)
+    createEditInput('edit-date-input', taskDetails, taskDueDate, 'date', format(projectList[index].taskList[taskIndex].dueDate, 'mm/dd/yyyy'))
     // createEditInput('edit-priority-input', taskDetails, taskPriority, 'text')
     const confirmButton = document.createElement('button')
     confirmButton.classList.add('project-confirm-button')
@@ -80,13 +81,15 @@ export function renderTaskEdit(e, index, taskIndex) {
     taskDetails.appendChild(editButtonContainer)
     editButtonContainer.appendChild(confirmButton)
     editButtonContainer.appendChild(cancelButton)
-
     cancelButton.addEventListener('click', () => {
-        renderTasks()
+        resetTaskDetails(index)
     })
 
     confirmButton.addEventListener('click', () => {
-        projectList[index].taskList[taskIndex].name = taskTitleInput.value
+        const taskTitleInput = taskButton.querySelector('#edit-title-input')
+        const taskDescInput = taskButton.querySelector('#edit-desc-input')
+        const taskDateInput = taskButton.querySelector('#edit-date-input')
+        projectList[index].taskList[taskIndex].title = taskTitleInput.value
         projectList[index].taskList[taskIndex].description = taskDescInput.value
         projectList[index].taskList[taskIndex].dueDate = taskDateInput.value
         renderTasks()

@@ -1,6 +1,7 @@
 import { projectList, deleteProject, getAllTasks } from './project.js'
 import { projectContainer, renderProjects, renderProjectEdit } from './projectList.js';
 import { renderTasks, taskContainer, renderTaskEdit } from './taskList.js';
+import { format } from 'date-fns';
 
 export let index = 0
 export let taskIndex = 0
@@ -20,11 +21,12 @@ export function createInput(inputId, parentElement, type) {
     parentElement.appendChild(inputElement);
 }
 
-export function createEditInput(inputId, parentElement, oldElement, type) {
-    const inputElement = document.createElement('input');
-    inputElement.id = inputId;
+export function createEditInput(inputId, parentElement, oldElement, type, preFilledValue) {
+    const inputElement = document.createElement('input')
+    inputElement.id = inputId
     inputElement.type = type
-    parentElement.replaceChild(inputElement, oldElement);
+    inputElement.value = preFilledValue || ''
+    parentElement.replaceChild(inputElement, oldElement)
 }
 
 export function createRadioInput(inputClass, parentElement, valueArray) {
@@ -73,25 +75,45 @@ export function getProjectButtons() {
     })
 }
 
-export function getTaskButtons() {
+function setDetailDisplay(element) {
+    const taskButton = element.closest('li')
+    if(!taskButton) {
+        return
+    }
+    const taskDetails = taskButton.querySelector('.task-details')
+    if(taskDetails.firstChild.tagName.toLowerCase() === 'input' && taskDetails.style.display === 'grid') {
+        return
+    }
+    else if(taskDetails.style.display === 'none') {
+        taskDetails.style.display = 'grid'
+    }
+    else{
+        taskDetails.style.display = 'none'
+    }
+}
+
+function getTaskIndex(element) {
     let taskButtons = taskContainer.querySelectorAll('.task-item')
     const taskButtonArray = Array.from(taskButtons)
+    const focusedParent = element.closest('li')
+    for(let i = 0; i < taskButtonArray.length; i++) {
+        if(taskButtonArray[i] === focusedParent) {
+            taskIndex = i
+            return taskIndex
+        }
+        else {
+            continue
+        }
+    }
+}
+
+export function getTaskButtons() {
+    const taskButtons = taskContainer.querySelectorAll('.task-item')
     taskButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            taskIndex = taskButtonArray.indexOf(button)
-            console.log(taskIndex)
-            const taskDetails = button.querySelector('.task-details')
-            if(taskDetails.style.display === 'none') {
-                taskDetails.style.display = 'grid'
-            }
-
-            else if(taskDetails.firstChild.tagName === 'input') {
-                return
-            }
-
-            else{
-                taskDetails.style.display = 'none'
-            }
+        button.addEventListener('click', (e) => {
+            console.log('poop2')
+            getTaskIndex(e.target)
+            setDetailDisplay(e.target)
         })
     })
 }
@@ -115,6 +137,33 @@ export function getRemoveButtons(container) {
     })
 }
 
+export function resetTaskDetails(index) {
+    const titleInput = taskContainer.querySelector('#edit-title-input')
+    const descInput = taskContainer.querySelector('#edit-desc-input')
+    const dateInput = taskContainer.querySelector('#edit-date-input')
+    const editButtonContainer = taskContainer.querySelector('.edit-button-container')
+    const parentElement = titleInput.closest('li')
+    const taskDetails = parentElement.querySelector('.task-details')
+    const taskIndex = getTaskIndex(titleInput)
+    const task = projectList[index].taskList[taskIndex]
+    const taskTitle = document.createElement('h2')
+    taskTitle.classList.add('task-title')
+    taskTitle.textContent = task.title
+    const taskDesc = document.createElement('p')
+    taskDesc.classList.add('task-description')
+    taskDesc.textContent = task.description
+    const taskDate = document.createElement('p')
+    taskDate.classList.add('task-date')
+    taskDate.textContent = 'Due Date: ' + format(task.dueDate, 'LLLL dd, yyyy')
+    parentElement.replaceChild(taskTitle, titleInput)
+    taskDetails.replaceChild(taskDesc, descInput)
+    taskDetails.replaceChild(taskDate, dateInput)
+    taskDetails.style.display = 'none'
+    taskDetails.removeChild(editButtonContainer)
+    console.log('poop')
+
+}
+
 export function getEditButtons(container) {
     let editButtons = container.querySelectorAll('.edit-button')
     const editButtonArray = Array.from(editButtons)
@@ -125,9 +174,11 @@ export function getEditButtons(container) {
                 renderProjectEdit(e, index)
             }
             else if(container === taskContainer) {
+                if(taskContainer.querySelector('#edit-title-input')) {
+                    resetTaskDetails(index)
+                }
                 taskIndex = editButtonArray.indexOf(button)
                 renderTaskEdit(e, index, taskIndex)
-                getTaskButtons()
             }
         })
     })

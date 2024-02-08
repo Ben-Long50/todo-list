@@ -1,7 +1,6 @@
 import { projectList } from "./project"
 import { createLabel, createInput, createRadioInput, createFormButtons, index } from "./renderDom"
 import { renderTasks, taskContainer } from "./taskList"
-import { format } from 'date-fns'
 
 export const newTaskButton = document.querySelector('#new-task-button')
 export const listContainer = document.querySelector('#list-container')
@@ -21,7 +20,7 @@ export function renderTaskForm() {
     createInput('task-date-input', newTaskForm, 'date');
 
     createLabel('Priority:', 'task-priority-input', 'task-priority-label', newTaskForm);
-    createRadioInput('task-priority-input', newTaskForm, ['High', 'Medium', 'Low']);
+    createRadioInput('task-priority-input', newTaskForm, ['5', '4', '3', '2', '1']);
 
     const formButtons = createFormButtons(newTaskForm, 'create-task-button', 'cancel-task-button')
 
@@ -40,7 +39,7 @@ newTaskButton.addEventListener('click', () => {
     formElements.createButton.addEventListener('click', () => {
         const nameValue = document.getElementById('task-name-input').value
         const descValue = document.getElementById('task-desc-input').value
-        const dateValue = format(document.getElementById('task-date-input').value, 'LLLL dd, yyyy')
+        const dateValue = document.getElementById('task-date-input').value
         const priorityValues = document.querySelectorAll('.task-priority-input')
         console.log(priorityValues)
         function getRaidoValue() {

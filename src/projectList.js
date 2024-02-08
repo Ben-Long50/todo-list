@@ -41,6 +41,7 @@ export function renderProjectEdit(e, index) {
     projectEditForm.classList.add('project-edit-form')
     const projectTitleInput = document.createElement('input')
     projectTitleInput.classList.add('project-title-input')
+    projectTitleInput.value = projectList[index].name
     const confirmButton = document.createElement('button')
     confirmButton.classList.add('project-confirm-button')
     confirmButton.textContent = 'Confirm'

@@ -1,6 +1,7 @@
 .task-item {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
     background-color: var(--main-background-color);
     box-shadow: var(--main-box-shadow);
     border-radius: var(--main-border-radius);
@@ -37,6 +38,7 @@
     display: none;
     grid-column: 1 / 3;
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .task-description {
@@ -49,4 +51,30 @@
 
 .task-priority {
 
+}
+
+#edit-title-input,
+#edit-desc-input,
+#edit-date-input {
+    box-sizing: border-box;
+    width: 66%;
+    min-width: 170px;
+    height: 26px;
+    align-self: center;
+}
+.edit-button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 36px;
+}
+
+#edit-date-input {
+    justify-self: end;
+}
+
+.project-confirm-button,
+.project-cancel-button {
+    flex-grow: 1;
+    max-width: 95px;
 }
