@@ -1,5 +1,5 @@
 export const projectList = []
-export const allTasksList = []
+export let allTasksList = []
 
 export default class Project {
     constructor(name) {
@@ -37,6 +37,7 @@ export function deleteProject(index) {
 }
 
 export function getAllTasks() {
+    allTasksList = []
     projectList.forEach(project => {
         project.taskList.forEach(task => {
             allTasksList.push(task)

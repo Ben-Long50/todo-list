@@ -2,14 +2,13 @@ import { projectList } from "./project"
 import { getProjectButtons, getRemoveButtons, getEditButtons, resetProjectDetails } from "./renderDom"
 
 export const projectContainer = document.querySelector('#project-container')
-const minimizeButton = document.querySelector('#minimize-button')
 
 export function renderProjects() {
     while(projectContainer.firstChild) {
         projectContainer.removeChild(projectContainer.firstChild)
     }
 
-    projectList.forEach(project => {
+    projectList.forEach((project, index) => {
         const projectButton = document.createElement('li')
         projectButton.classList.add('project-button')
         projectContainer.appendChild(projectButton)
@@ -17,17 +16,19 @@ export function renderProjects() {
         projectTitle.classList.add('project-title')
         projectTitle.textContent = project.name
         projectButton.appendChild(projectTitle)
-        const buttonContainer = document.createElement('div')
-        buttonContainer.classList.add('button-container')
-        const editButton = document.createElement('button')
-        editButton.classList.add('edit-button')
-        editButton.textContent = 'Edit'
-        const removeButton = document.createElement('button')
-        removeButton.classList.add('remove-button')
-        removeButton.textContent = 'X'
-        projectButton.appendChild(buttonContainer)
-        buttonContainer.appendChild(editButton)
-        buttonContainer.appendChild(removeButton)
+        if(index > 0) {
+            const buttonContainer = document.createElement('div')
+            buttonContainer.classList.add('button-container')
+            const editButton = document.createElement('button')
+            editButton.classList.add('edit-button')
+            editButton.textContent = 'Edit'
+            const removeButton = document.createElement('button')
+            removeButton.classList.add('remove-button')
+            removeButton.textContent = 'X'
+            projectButton.appendChild(buttonContainer)
+            buttonContainer.appendChild(editButton)
+            buttonContainer.appendChild(removeButton)
+        }
     })
     getProjectButtons()
     getRemoveButtons(projectContainer)

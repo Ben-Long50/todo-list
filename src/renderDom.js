@@ -1,4 +1,4 @@
-import { projectList, deleteProject, getAllTasks } from './project.js'
+import { projectList, deleteProject, getAllTasks, allTasksList } from './project.js'
 import { projectContainer, renderProjects, renderProjectEdit } from './projectList.js';
 import { renderTasks, taskContainer, renderTaskEdit } from './taskList.js';
 import { format } from 'date-fns';
@@ -91,6 +91,12 @@ export function getProjectButtons() {
     projectButtons.forEach(button => {
         button.addEventListener('click', () => {
             index = projectButtonArray.indexOf(button)
+            if(index === 0) {
+                projectList[index].taskList = []
+                getAllTasks()
+                projectList[index].taskList = allTasksList
+                renderTasks()
+            }
             renderTasks()
         })
     })
