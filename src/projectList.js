@@ -1,5 +1,5 @@
 import { projectList } from "./project"
-import { getProjectButtons, getRemoveButtons, getEditButtons } from "./renderDom"
+import { getProjectButtons, getRemoveButtons, getEditButtons, resetProjectDetails } from "./renderDom"
 
 export const projectContainer = document.querySelector('#project-container')
 const minimizeButton = document.querySelector('#minimize-button')
@@ -54,7 +54,7 @@ export function renderProjectEdit(e, index) {
     projectEditForm.appendChild(cancelButton)
 
     cancelButton.addEventListener('click', () => {
-        renderProjects()
+        resetProjectDetails(index)
     })
 
     confirmButton.addEventListener('click', () => {

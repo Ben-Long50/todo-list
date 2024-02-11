@@ -111,7 +111,6 @@ export function getTaskButtons() {
     const taskButtons = taskContainer.querySelectorAll('.task-item')
     taskButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            console.log('poop2')
             getTaskIndex(e.target)
             setDetailDisplay(e.target)
         })
@@ -137,6 +136,16 @@ export function getRemoveButtons(container) {
     })
 }
 
+export function resetProjectDetails(index) {
+    const project = projectList[index]
+    const projectEditForm = projectContainer.querySelector('.project-edit-form')
+    const parentElement = projectEditForm.closest('li')
+    const projectTitle = document.createElement('h2')
+    projectTitle.classList.add('project-title')
+    projectTitle.textContent = project.name
+    parentElement.replaceChild(projectTitle, projectEditForm)
+}
+
 export function resetTaskDetails(index) {
     const titleInput = taskContainer.querySelector('#edit-title-input')
     const descInput = taskContainer.querySelector('#edit-desc-input')
@@ -160,8 +169,6 @@ export function resetTaskDetails(index) {
     taskDetails.replaceChild(taskDate, dateInput)
     taskDetails.style.display = 'none'
     taskDetails.removeChild(editButtonContainer)
-    console.log('poop')
-
 }
 
 export function getEditButtons(container) {
@@ -170,6 +177,9 @@ export function getEditButtons(container) {
     editButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             if(container === projectContainer) {
+                if(projectContainer.querySelector('.project-title-input')) {
+                    resetProjectDetails(index)
+                }
                 index = editButtonArray.indexOf(button)
                 renderProjectEdit(e, index)
             }
