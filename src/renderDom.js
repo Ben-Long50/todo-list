@@ -25,7 +25,7 @@ export function createEditInput(inputId, parentElement, oldElement, type, preFil
     const inputElement = document.createElement('input')
     inputElement.id = inputId
     inputElement.type = type
-    inputElement.value = preFilledValue || ''
+    inputElement.value = preFilledValue
     parentElement.replaceChild(inputElement, oldElement)
 }
 
@@ -38,8 +38,29 @@ export function createRadioInput(inputClass, parentElement, valueArray) {
         createLabel(valueArray[i], inputClass, null, elementContainer)
         const inputElement = document.createElement('input');
         inputElement.type = 'radio';
+        inputElement.name = 'priority-option'
         inputElement.classList.add(inputClass);
         inputElement.value = valueArray[i]
+        elementContainer.appendChild(inputElement);
+    }
+}
+
+export function createEditRadioInput(inputClass, parentElement, oldElement, valueArray) {
+    const elementContainer = document.createElement('div')
+    const priorityValue = projectList[index].taskList[taskIndex].priority
+    elementContainer.id = 'radio-container'
+    parentElement.replaceChild(elementContainer, oldElement)
+
+    for(let i = 0; i < valueArray.length; i++) {
+        createLabel(valueArray[i], inputClass, null, elementContainer)
+        const inputElement = document.createElement('input');
+        inputElement.type = 'radio';
+        inputElement.name = 'priority-option'
+        inputElement.classList.add(inputClass);
+        inputElement.value = valueArray[i]
+        if(valueArray[i] == priorityValue) {
+            inputElement.setAttribute('checked', 'checked')
+        }
         elementContainer.appendChild(inputElement);
     }
 }
@@ -150,6 +171,7 @@ export function resetTaskDetails(index) {
     const titleInput = taskContainer.querySelector('#edit-title-input')
     const descInput = taskContainer.querySelector('#edit-desc-input')
     const dateInput = taskContainer.querySelector('#edit-date-input')
+    const priorityInput = taskContainer.querySelector('#radio-container')
     const editButtonContainer = taskContainer.querySelector('.edit-button-container')
     const parentElement = titleInput.closest('li')
     const taskDetails = parentElement.querySelector('.task-details')
@@ -164,9 +186,13 @@ export function resetTaskDetails(index) {
     const taskDate = document.createElement('p')
     taskDate.classList.add('task-date')
     taskDate.textContent = 'Due Date: ' + format(task.dueDate, 'LLLL dd, yyyy')
+    const taskPriority = document.createElement('p')
+    taskPriority.classList.add('task-priority')
+    taskPriority.textContent = 'Priority: ' + task.priority
     parentElement.replaceChild(taskTitle, titleInput)
     taskDetails.replaceChild(taskDesc, descInput)
     taskDetails.replaceChild(taskDate, dateInput)
+    taskDetails.replaceChild(taskPriority, priorityInput)
     taskDetails.style.display = 'none'
     taskDetails.removeChild(editButtonContainer)
 }

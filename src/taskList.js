@@ -1,5 +1,5 @@
 import { projectList } from "./project"
-import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput, resetTaskDetails } from "./renderDom"
+import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput, createEditRadioInput, resetTaskDetails } from "./renderDom"
 import { format, formatDistanceToNowStrict } from 'date-fns'
 
 export const taskContainer = document.querySelector('#task-container')
@@ -65,13 +65,13 @@ export function renderTaskEdit(e, index, taskIndex) {
     const taskDetails = taskButton.querySelector('.task-details')
     const taskDesc = taskButton.querySelector('.task-description')
     const taskDueDate = taskButton.querySelector('.task-date')
-    const taskPriority = taskButton.querySelector('task-priority')
+    const taskPriority = taskButton.querySelector('.task-priority')
     const editButtonContainer = document.createElement('div')
     editButtonContainer.classList.add('edit-button-container')
     createEditInput('edit-title-input', taskButton, taskTitle, 'text', projectList[index].taskList[taskIndex].title)
     createEditInput('edit-desc-input', taskDetails, taskDesc, 'text', projectList[index].taskList[taskIndex].description)
-    createEditInput('edit-date-input', taskDetails, taskDueDate, 'date', format(projectList[index].taskList[taskIndex].dueDate, 'mm/dd/yyyy'))
-    // createEditInput('edit-priority-input', taskDetails, taskPriority, 'text')
+    createEditInput('edit-date-input', taskDetails, taskDueDate, 'date', format(projectList[index].taskList[taskIndex].dueDate, 'yyyy-MM-dd'))
+    createEditRadioInput('edit-priority-input', taskDetails, taskPriority, ['5', '4', '3', '2', '1'])
     const confirmButton = document.createElement('button')
     confirmButton.classList.add('project-confirm-button')
     confirmButton.textContent = 'Confirm'
@@ -89,9 +89,12 @@ export function renderTaskEdit(e, index, taskIndex) {
         const taskTitleInput = taskButton.querySelector('#edit-title-input')
         const taskDescInput = taskButton.querySelector('#edit-desc-input')
         const taskDateInput = taskButton.querySelector('#edit-date-input')
+        const taskPriorityInput = taskButton.querySelector('input[type="radio"]:checked')
+        console.log(taskPriorityInput)
         projectList[index].taskList[taskIndex].title = taskTitleInput.value
         projectList[index].taskList[taskIndex].description = taskDescInput.value
         projectList[index].taskList[taskIndex].dueDate = taskDateInput.value
+        projectList[index].taskList[taskIndex].priority = taskPriorityInput.value
         renderTasks()
     })
 }
