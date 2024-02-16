@@ -1,11 +1,13 @@
 import { projectList } from "./project"
 import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput, createEditRadioInput, resetTaskDetails } from "./renderDom"
 import { format, formatDistanceToNowStrict } from 'date-fns'
+import { populateStorage } from "./storage"
 
 export const taskContainer = document.querySelector('#task-container')
 const projectTitle = document.querySelector('#project-title')
 
 export function renderTasks() {
+    // populateStorage()
     if(projectList[index]) {
         projectTitle.textContent = projectList[index].name
         while(taskContainer.firstChild) {
@@ -20,7 +22,6 @@ export function renderTasks() {
             taskTitle.textContent = task.title
             const taskTimeLeft = document.createElement('div')
             taskTimeLeft.classList.add('task-time-left')
-            console.log(task.dueDate)
             taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(task.dueDate))
             const buttonContainer = document.createElement('div')
             buttonContainer.classList.add('button-container')

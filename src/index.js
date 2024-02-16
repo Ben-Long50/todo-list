@@ -8,6 +8,7 @@ import { renderProjects } from './projectList'
 import { renderTasks } from './taskList'
 import { renderProjectForm } from './projectForm.js'
 import { renderTaskForm } from './taskForm.js'
+import { populateStorage } from './storage.js'
 
 const allTasks = addProject('All Tasks')
 const gym = addProject('gym')
@@ -21,9 +22,7 @@ gym.addTask('dumbbell flys', '4x10 at 60% 1rm', 'Febrary, 11 2024', '1')
 study.addTask('The Odin Project', 'Complete To-do List Project', 'February, 12 2024', '3')
 
 getAllTasks()
-console.log(allTasksList)
 allTasks.taskList = allTasksList
 
 renderProjects()
 renderTasks()
-

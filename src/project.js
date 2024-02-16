@@ -1,4 +1,4 @@
-export const projectList = []
+export let projectList = []
 export let allTasksList = []
 
 export default class Project {
