@@ -15,12 +15,12 @@ if(localStorage.length === 0) {
     const gym = addProject('gym')
     const study = addProject('study')
     
-    gym.addTask('bench', '4x10 at 60% 1rm', 'Febrary, 11 2024', '5')
-    gym.addTask('squat', '4x10 at 60% 1rm', 'Febrary, 11 2024', '4')
-    gym.addTask('bicep curls', '4x10 at 60% 1rm', 'Febrary, 11 2024', '3')
-    gym.addTask('tricep extensions', '4x10 at 60% 1rm', 'Febrary, 11 2024', '2')
-    gym.addTask('dumbbell flys', '4x10 at 60% 1rm', 'Febrary, 11 2024', '1')
-    study.addTask('The Odin Project', 'Complete To-do List Project', 'February, 12 2024', '3')
+    gym.addTask('Bench Press', '4 sets of 10 reps at 60% 1rm', 'Febrary, 29 2024', '5')
+    gym.addTask('Tricep Pushdowns', '3 sets of 10 reps at 80lbs', 'Febrary, 29 2024', '4')
+    gym.addTask('Dumbbell Shoulder Press', '4 sets of 8 reps at 70lbs', 'Febrary, 29 2024', '3')
+    study.addTask('Complete To-Do List Project', 'Find out how to implement localStorage and reapply the project class methods after parsing from JSON format', 'Febrary, 29 2024', '2')
+    study.addTask('Begin Linting Section of The Odin Project', 'Read through the material and complete the assignment exercises', 'March, 5 2024', '1')
+    study.addTask('Add localStorage to Library Project', 'Revisit the library project and refactor the code to implement the newly learned methods for local storage', 'March, 10 2024', '3')
     
     getAllTasks()
     allTasks.taskList = allTasksList
