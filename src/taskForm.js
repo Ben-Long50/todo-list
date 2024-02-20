@@ -41,7 +41,6 @@ newTaskButton.addEventListener('click', () => {
         const descValue = document.getElementById('task-desc-input').value
         const dateValue = document.getElementById('task-date-input').value
         const priorityValues = document.querySelectorAll('.task-priority-input')
-        console.log(priorityValues)
         function getRaidoValue() {
             for(const radio of priorityValues) {
                 if(radio.checked) {

@@ -1,13 +1,11 @@
 import { projectList } from "./project"
 import { getTaskButtons, getRemoveButtons, getEditButtons, index, createEditInput, createEditRadioInput, resetTaskDetails } from "./renderDom"
 import { format, formatDistanceToNowStrict } from 'date-fns'
-import { populateStorage } from "./storage"
 
 export const taskContainer = document.querySelector('#task-container')
 const projectTitle = document.querySelector('#project-title')
 
 export function renderTasks() {
-    // populateStorage()
     if(projectList[index]) {
         projectTitle.textContent = projectList[index].name
         while(taskContainer.firstChild) {

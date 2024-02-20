@@ -1,11 +1,9 @@
 import { projectList } from "./project"
 import { getProjectButtons, getRemoveButtons, getEditButtons, resetProjectDetails } from "./renderDom"
-import { populateStorage } from "./storage"
 
 export const projectContainer = document.querySelector('#project-container')
 
 export function renderProjects() {
-    // populateStorage()
     while(projectContainer.firstChild) {
         projectContainer.removeChild(projectContainer.firstChild)
     }
