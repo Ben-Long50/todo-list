@@ -8,7 +8,7 @@ import { renderProjects } from './projectList'
 import { renderTasks } from './taskList'
 import { renderProjectForm } from './projectForm.js'
 import { renderTaskForm } from './taskForm.js'
-import { populateStorage, reloadProjectList } from './storage.js'
+import { reloadProjectList } from './storage.js'
 
 if(localStorage.length === 0) {
     const allTasks = addProject('All Tasks')

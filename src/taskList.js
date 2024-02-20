@@ -21,14 +21,6 @@ export function renderTasks() {
             const taskTimeLeft = document.createElement('div')
             taskTimeLeft.classList.add('task-time-left')
             taskTimeLeft.textContent = 'Due in: ' + formatDistanceToNowStrict(new Date(task.dueDate))
-            const buttonContainer = document.createElement('div')
-            buttonContainer.classList.add('button-container')
-            const taskEditButton = document.createElement('button')
-            taskEditButton.classList.add('edit-button')
-            taskEditButton.textContent = 'Edit'
-            const taskRemoveButton = document.createElement('button')
-            taskRemoveButton.classList.add('remove-button')
-            taskRemoveButton.textContent = 'X'
             const taskDetails = document.createElement('div')
             taskDetails.classList.add('task-details')
             taskDetails.style.display = 'none'
@@ -41,12 +33,22 @@ export function renderTasks() {
             const taskPriority = document.createElement('p')
             taskPriority.classList.add('task-priority')
             taskPriority.textContent = 'Priority: ' + task.priority
+            if(index > 0) {
+                const buttonContainer = document.createElement('div')
+                buttonContainer.classList.add('button-container')
+                const taskEditButton = document.createElement('button')
+                taskEditButton.classList.add('edit-button')
+                taskEditButton.textContent = 'Edit'
+                const taskRemoveButton = document.createElement('button')
+                taskRemoveButton.classList.add('remove-button')
+                taskRemoveButton.textContent = 'X'
+                taskItem.appendChild(buttonContainer)
+                buttonContainer.appendChild(taskEditButton)
+                buttonContainer.appendChild(taskRemoveButton)
+            }
             taskContainer.appendChild(taskItem)
             taskItem.appendChild(taskTitle)
             taskItem.appendChild(taskTimeLeft)
-            taskItem.appendChild(buttonContainer)
-            buttonContainer.appendChild(taskEditButton)
-            buttonContainer.appendChild(taskRemoveButton)
             taskItem.appendChild(taskDetails)
             taskDetails.appendChild(taskDesc)
             taskDetails.appendChild(taskDate)
